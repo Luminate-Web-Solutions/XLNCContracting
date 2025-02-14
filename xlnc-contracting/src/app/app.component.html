@@ -1,0 +1,191 @@
+<mat-toolbar color="primary">
+  <img src="Final-Logo.png" alt="XLNC Logo" class="logo">
+  <span class="spacer"></span>
+  <nav>
+    <button mat-button>HOME</button>
+    <button mat-button>ABOUT US</button>
+    <button mat-button>NEWS</button>
+    <button mat-button>PROJECTS</button>
+    <button mat-button>SERVICES</button>
+    <button mat-button>CONTACT US</button>
+  </nav>
+</mat-toolbar>
+<!-- home -->
+<div class="hero">
+  <div class="hero-content">
+    <h1>WELCOME TO!</h1>
+    <div class="logo-container">
+      <img src="Final-Logo.png" alt="XLNC Logo" class="hero-logo">
+    </div>
+  </div>
+  <div class="slider-navigation">
+    <button class="nav-button prev" (click)="prevSlide()">
+      <mat-icon>chevron_left</mat-icon>
+    </button>
+    <button class="nav-button next" (click)="nextSlide()">
+      <mat-icon>chevron_right</mat-icon>
+    </button>
+  </div>
+  <div class="hero-overlay"></div>
+</div>
+<!-- services -->
+<section class="services-section">
+  <h2>OUR SERVICES</h2>
+  <div class="services-grid">
+    <div 
+      *ngFor="let service of services" 
+      class="service-item"
+      (click)="selectService(service)"
+      [class.active]="selectedService === service">
+      <span class="service-name">{{ service.name }}</span>
+    </div>
+  </div>
+  
+  <div class="service-preview" *ngIf="selectedService">
+    <img [src]="selectedService.image" [alt]="selectedService.name">
+    <div class="service-description">
+      <p>{{ selectedService.description }}</p>
+    </div>
+  </div>
+</section>
+
+<!-- Health & Safety -->
+<section class="health-safety-section">
+  <div class="health-safety-container">
+    <div class="safety-image">
+      <img src="Untitled-1.png" alt="PPE Safety Diagram">
+    </div>
+    <div class="safety-content">
+      <h2>HEALTH & SAFETY</h2>
+      <p class="safety-intro">We operate a rigorous and relentless approach to protecting health, safety and welfare of our employees.</p>
+      
+      <div class="safety-points">
+        <div class="safety-point">
+          <h3>Zero Tolerance</h3>
+          <p>All those involved in construction activities for XLNC. Zero tolerance for accidents.</p>
+        </div>
+        
+        <div class="safety-point">
+          <h3>Employee Safety</h3>
+          <p>Employee Safety is the goal which we focus on and it is the main criteria to measure our performance...</p>
+        </div>
+        
+        <div class="safety-point">
+          <h3>Responsibility</h3>
+          <p>It is our responsibility to ensure that everyone who works for us returns home safely at the end of ...</p>
+        </div>
+        
+        <div class="safety-point">
+          <h3>Culture</h3>
+          <p>Fostering a culture of safe working and promoting behavioral change are key safety objectives for us...</p>
+        </div>
+      </div>
+      
+      <p class="safety-footer">This is also backed up by independent auditing and our tailored safety training programme.</p>
+    </div>
+  </div>
+</section>
+
+<!-- projects -->
+
+<section class="projects-section">
+  <h2>OUR PROJECTS</h2>
+  <div class="projects-grid">
+    <div 
+      *ngFor="let project of projects" 
+      class="project-card"
+      [id]="project.id">
+      <div class="project-image">
+        <img [src]="project.image" [alt]="project.title">
+        <div class="project-overlay">
+          <div class="project-details" *ngIf="project.client">
+            <p><strong>Client:</strong> {{ project.client }}</p>
+            <p *ngIf="project.contractor"><strong>Contractor:</strong> {{ project.contractor }}</p>
+            <p *ngIf="project.engineer"><strong>Project Engineer:</strong> {{ project.engineer }}</p>
+          </div>
+        </div>
+      </div>
+      <h3 class="project-title">{{ project.title }}</h3>
+      <div class="title-underline"></div>
+    </div>
+  </div>
+</section>
+
+<!-- Statistics Section -->
+<section class="statistics-section">
+  <div class="stats-overlay"></div>
+  <div class="stats-content">
+    <h2 class="since-title">SINCE 2015</h2>
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="stat-number">81</div>
+        <div class="stat-label">PROJECTS COMPLETED</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">67</div>
+        <div class="stat-label">CLIENTS WORKED</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">6</div>
+        <div class="stat-label">ON-GOING PROJECTS</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">2,015</div>
+        <div class="stat-label">SINCE</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- Project Gallery Section -->
+<section class="gallery-section">
+  <div class="gallery-grid">
+    <div class="gallery-item" *ngFor="let image of galleryImages">
+      <img [src]="image.url" [alt]="image.alt">
+    </div>
+  </div>
+</section>
+
+
+
+<!-- Team Section -->
+<section class="team-section">
+  <h2>Team</h2>
+  <div class="team-content">
+    <blockquote class="team-quote">
+      We have well equipped technical team with resources and having 15 years of experience in their core works in UAE. They work under the supervision of Highly Experienced Engineers. We insist on mutual respect, cooperation and mutual encouragement to achieve each individual's potential.
+    </blockquote>
+  </div>
+</section>
+
+<!-- Latest News Section -->
+<section class="news-section">
+  <h2>LATEST NEWS</h2>
+  <p class="news-intro">Stay updated with the latest trends and digital news by reading our articles written by specialists in their industry.</p>
+  
+  <div class="news-grid">
+    <div class="news-card">
+      <div class="news-image">
+        <img src="assets/news/hvac.jpg" alt="HVAC Works">
+      </div>
+      <div class="news-content">
+        <h3>HVAC Works</h3>
+        <div class="news-date">June 7, 2020</div>
+        <p>We have professional staff for servicing, maintenance and troubleshooting the problems with all kinds of air conditioners. It doesn't matter if you have a...</p>
+      </div>
+    </div>
+
+    <div class="news-card">
+      <div class="news-image">
+        <img src="assets/news/electrical.jpg" alt="Electrical Works">
+      </div>
+      <div class="news-content">
+        <h3>Electrical Works</h3>
+        <div class="news-date">June 7, 2020</div>
+        <p>We Provide best of Our Services to Fix Electrical problems and our emergency service team is available 24/7. From fixing light fixtures to complete electric...</p>
+      </div>
+    </div>
+  </div>
+</section>
