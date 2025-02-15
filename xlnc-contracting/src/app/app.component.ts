@@ -176,9 +176,14 @@ export class AppComponent implements OnInit, OnDestroy {
 
   galleryImages = [
     { url: '3.jpg', alt: 'Project Image 1' },
-    { url: 'assets/gallery/image2.jpg', alt: 'Project Image 2' },
+    { url: '48.jpg', alt: 'Project Image 2' },
     { url: '49.jpg', alt: 'Project Image 3' },
-    { url: 'assets/gallery/image4.jpg', alt: 'Project Image 4' },
+    { url: '33.jpg', alt: 'Project Image 4' },
     { url: '5.jpg', alt: 'Project Image 5' }
   ];
+
+  onSubmit() {
+    // Handle form submission
+    console.log('Form submitted');
+  }
 }

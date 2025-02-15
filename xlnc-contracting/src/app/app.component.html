@@ -168,7 +168,7 @@
   <div class="news-grid">
     <div class="news-card">
       <div class="news-image">
-        <img src="assets/news/hvac.jpg" alt="HVAC Works">
+        <img src="HVAC3.jpg" alt="HVAC Works">
       </div>
       <div class="news-content">
         <h3>HVAC Works</h3>
@@ -179,12 +179,61 @@
 
     <div class="news-card">
       <div class="news-image">
-        <img src="assets/news/electrical.jpg" alt="Electrical Works">
+        <img src="EW2.jpg" alt="Electrical Works">
       </div>
       <div class="news-content">
         <h3>Electrical Works</h3>
         <div class="news-date">June 7, 2020</div>
         <p>We Provide best of Our Services to Fix Electrical problems and our emergency service team is available 24/7. From fixing light fixtures to complete electric...</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Get in Touch Section -->
+<section class="contact-section">
+  <h2>GET IN TOUCH</h2>
+  <div class="contact-container">
+    <div class="contact-form">
+      <form (ngSubmit)="onSubmit()" >
+        <div class="form-group">
+          <input type="text" placeholder="Your Name *" required>
+        </div>
+        <div class="form-group">
+          <input type="email" placeholder="Your Email *" required>
+        </div>
+        <div class="form-group">
+          <input type="tel" placeholder="Phone *" required>
+        </div>
+        <div class="form-group">
+          <textarea placeholder="Your Enquiry *" rows="4" required></textarea>
+        </div>
+        <div class="captcha-group">
+          <p>Please prove you are human by selecting the <span class="highlight">Truck</span>.</p>
+          <div class="captcha-options">
+            <button type="button" class="captcha-option">
+              <mat-icon>favorite</mat-icon>
+            </button>
+            <button type="button" class="captcha-option">
+              <mat-icon>local_cafe</mat-icon>
+            </button>
+            <button type="button" class="captcha-option">
+              <mat-icon>local_shipping</mat-icon>
+            </button>
+          </div>
+        </div>
+        <button type="submit" class="submit-button">Send</button>
+      </form>
+    </div>
+    <div class="contact-info">
+      <p class="info-intro">Give us a call or drop by anytime, we endeavor to answer all inquiries within 24 hours on business days.</p>
+      <div class="info-details">
+        <p><mat-icon>location_on</mat-icon> Address: Dubai. U.A.E.</p>
+        <p>
+          <mat-icon>phone</mat-icon> Phone: (+971) 48-249-956 | WhatsApp: (+971) 056-946-8021
+        </p>
+        <p><mat-icon>email</mat-icon> Email: info&#64;xlnccontracting.com</p>
+        <p><mat-icon>language</mat-icon> Website: www.xlnccontracting.com</p>
       </div>
     </div>
   </div>
