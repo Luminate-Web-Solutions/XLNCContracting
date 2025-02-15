@@ -45,11 +45,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this.updateBackgroundImage();
   }
 
-  @HostListener('window:scroll', [])
-  onWindowScroll() {
-    this.isScrolled = window.scrollY > 50;
-    this.updateActiveSection();
-  }
 
   @HostListener('window:resize', [])
   onResize() {
@@ -231,4 +226,58 @@ export class AppComponent implements OnInit, OnDestroy {
     // Handle form submission
     console.log('Form submitted');
   }
+
+  statsNumbers: { [key in 'projectsCompleted' | 'clientsWorked' | 'ongoingProjects' | 'since']: { start: number; end: number; current: number } } = {
+    projectsCompleted: { start: 0, end: 81, current: 0 },
+    clientsWorked: { start: 0, end: 67, current: 0 },
+    ongoingProjects: { start: 0, end: 6, current: 0 },
+    since: { start: 0, end: 2015, current: 0 }
+  };
+
+  private statsAnimationStarted = false;
+
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    this.isScrolled = window.scrollY > 50;
+    this.updateActiveSection();
+    this.checkStatsVisibility();
+  }
+
+  private checkStatsVisibility() {
+    if (this.statsAnimationStarted) return;
+
+    const statsSection = document.querySelector('.statistics-section');
+    if (!statsSection) return;
+
+    const rect = statsSection.getBoundingClientRect();
+    const isVisible = rect.top <= window.innerHeight && rect.bottom >= 0;
+
+    if (isVisible) {
+      this.startStatsAnimation();
+      this.statsAnimationStarted = true;
+    }
+  }
+
+  private startStatsAnimation() {
+    const duration = 2000; // 2 seconds
+    const steps = 60;
+    const interval = duration / steps;
+
+    const animate = () => {
+      (Object.keys(this.statsNumbers) as Array<keyof typeof this.statsNumbers>).forEach(key => {
+        const stat = this.statsNumbers[key];
+        const increment = (stat.end - stat.start) / steps;
+        if (stat.current < stat.end) {
+          stat.current = Math.min(stat.current + increment, stat.end);
+        }
+      });
+
+      if (Object.values(this.statsNumbers).some(stat => stat.current < stat.end)) {
+        setTimeout(animate, interval);
+      }
+    };
+
+    animate();
+  }
+
 }

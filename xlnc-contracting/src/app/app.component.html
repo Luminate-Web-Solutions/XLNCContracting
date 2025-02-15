@@ -133,19 +133,19 @@
     <h2 class="since-title">SINCE 2015</h2>
     <div class="stats-grid">
       <div class="stat-item">
-        <div class="stat-number">81</div>
+        <div class="stat-number">{{ statsNumbers.projectsCompleted.current | number:'1.0-0' }}</div>
         <div class="stat-label">PROJECTS COMPLETED</div>
       </div>
       <div class="stat-item">
-        <div class="stat-number">67</div>
+        <div class="stat-number">{{ statsNumbers.clientsWorked.current | number:'1.0-0' }}</div>
         <div class="stat-label">CLIENTS WORKED</div>
       </div>
       <div class="stat-item">
-        <div class="stat-number">6</div>
+        <div class="stat-number">{{ statsNumbers.ongoingProjects.current | number:'1.0-0' }}</div>
         <div class="stat-label">ON-GOING PROJECTS</div>
       </div>
       <div class="stat-item">
-        <div class="stat-number">2,015</div>
+        <div class="stat-number">{{ statsNumbers.since.current | number:'1.0-0' }}</div>
         <div class="stat-label">SINCE</div>
       </div>
     </div>

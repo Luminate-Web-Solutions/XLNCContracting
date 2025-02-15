@@ -98,9 +98,9 @@
     text-decoration: none;
     color: white;
     padding: 0 16px;
-    height: 36px;
-    border-radius: 4px;
-    transition: all 0.3s ease;
+    
+    border-bottom: 2px solid #ff3333;
+    transition: all 0.3s ease-in-out;
   }
 
   .scrolled nav a, .scrolled .dropdown-trigger {
@@ -171,7 +171,7 @@
 
 
 
-  ::ng-deep .mat-menu-panel {
+  ::ng-deep.mat-menu-panel {
     border-radius: 4px !important;
   }
 
@@ -185,9 +185,7 @@
     color: #ff3333 !important;
   }
 
-  a{
-    color: white !important;
-  }
+
 
 
   @media (max-width: 768px) {
@@ -778,7 +776,7 @@
 .contact-section {
   padding: 6rem 2rem;
   
-  background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('/xlnc-contracting/public/bg-contato.png');
+  background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('/bg-contato.png');
   background-size: cover;
   background-position: center;
   color: white;
@@ -913,3 +911,4 @@
     flex-wrap: wrap;
   }
 }
+
