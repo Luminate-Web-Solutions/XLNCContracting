@@ -1,17 +1,32 @@
-<mat-toolbar color="primary">
+<mat-toolbar [class.scrolled]="isScrolled">
   <img src="Final-Logo.png" alt="XLNC Logo" class="logo">
   <span class="spacer"></span>
-  <nav>
-    <button mat-button>HOME</button>
-    <button mat-button>ABOUT US</button>
-    <button mat-button>NEWS</button>
-    <button mat-button>PROJECTS</button>
-    <button mat-button>SERVICES</button>
-    <button mat-button>CONTACT US</button>
+  <button class="menu-button" (click)="toggleMenu()" *ngIf="isMobile">
+    <mat-icon>{{ isMenuOpen ? 'close' : 'menu' }}</mat-icon>
+  </button>
+  <nav [class.open]="isMenuOpen">
+    <a mat-button href="#home" [class.active]="activeSection === 'home'" (click)="closeMenu()">HOME</a>
+    <div class="dropdown">
+    <a mat-button [matMenuTriggerFor]="aboutMenu" [class.active]="isAboutActive()">
+      ABOUT US
+      <mat-icon>arrow_drop_down</mat-icon>
+    </a>
+    <div class="dropdown-content">
+    <mat-menu #aboutMenu="matMenu" class="about-menu">
+      <a mat-menu-item href="#aboutus" (click)="closeMenu()">ABOUT US</a>
+      <a mat-menu-item href="#health" (click)="closeMenu()">HEALTH & SAFETY</a>
+      <a mat-menu-item href="#team" (click)="closeMenu()">TEAM</a>
+    </mat-menu>
+    </div>
+    </div>
+    <a mat-button href="#news" [class.active]="activeSection === 'news'" (click)="closeMenu()">NEWS</a>
+    <a mat-button href="#projects" [class.active]="activeSection === 'projects'" (click)="closeMenu()">PROJECTS</a>
+    <a mat-button href="#service" [class.active]="activeSection === 'service'" (click)="closeMenu()">SERVICES</a>
+    <a mat-button href="#contact" [class.active]="activeSection === 'contact'" (click)="closeMenu()">CONTACT US</a>
   </nav>
 </mat-toolbar>
 <!-- home -->
-<div class="hero">
+<div id="home"  class="hero">
   <div class="hero-content">
     <h1>WELCOME TO!</h1>
     <div class="logo-container">
@@ -20,7 +35,7 @@
   </div>
   <div class="slider-navigation">
     <button class="nav-button prev" (click)="prevSlide()">
-      <mat-icon>chevron_left</mat-icon>
+      <mat-icon class="prev">chevron_left</mat-icon>
     </button>
     <button class="nav-button next" (click)="nextSlide()">
       <mat-icon>chevron_right</mat-icon>
@@ -29,7 +44,7 @@
   <div class="hero-overlay"></div>
 </div>
 <!-- services -->
-<section class="services-section">
+<section id="service"  class="services-section">
   <h2>OUR SERVICES</h2>
   <div class="services-grid">
     <div 
@@ -50,7 +65,7 @@
 </section>
 
 <!-- Health & Safety -->
-<section class="health-safety-section">
+<section id="health" class="health-safety-section">
   <div class="health-safety-container">
     <div class="safety-image">
       <img src="Untitled-1.png" alt="PPE Safety Diagram">
@@ -88,7 +103,7 @@
 
 <!-- projects -->
 
-<section class="projects-section">
+<section id="projects" class="projects-section">
   <h2>OUR PROJECTS</h2>
   <div class="projects-grid">
     <div 
@@ -151,7 +166,7 @@
 
 
 <!-- Team Section -->
-<section class="team-section">
+<section id="team" class="team-section">
   <h2>Team</h2>
   <div class="team-content">
     <blockquote class="team-quote">
@@ -161,7 +176,7 @@
 </section>
 
 <!-- Latest News Section -->
-<section class="news-section">
+<section id="news" class="news-section">
   <h2>LATEST NEWS</h2>
   <p class="news-intro">Stay updated with the latest trends and digital news by reading our articles written by specialists in their industry.</p>
   
@@ -191,7 +206,7 @@
 </section>
 
 <!-- Get in Touch Section -->
-<section class="contact-section">
+<section id="contact" class="contact-section">
   <h2>GET IN TOUCH</h2>
   <div class="contact-container">
     <div class="contact-form">

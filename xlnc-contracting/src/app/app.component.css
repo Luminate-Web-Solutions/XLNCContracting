@@ -25,7 +25,7 @@
   }
   h1 {
     font-size: 4rem;
-    margin-bottom: 2rem;
+    margin-bottom: 10rem;
     text-transform: uppercase;
   }
   .logo-container {
@@ -34,7 +34,7 @@
   }
   .hero-logo {
     width: 100%;
-    height: auto;
+    height: 100%;
   }
   .slider-navigation {
     position: absolute;
@@ -46,52 +46,201 @@
     top: 50%;
     transform: translateY(-50%);
   }
-  .nav-button {
-    background: rgba(0, 0, 0, 0.5);
-    border: none;
-    border-radius: 50%;
-    width: 48px;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  .nav-button:hover {
-    background: rgba(0, 0, 0, 0.8);
-  }
-  .nav-button mat-icon {
-    color: white;
-    font-size: 36px;
-    height: 36px;
-    width: 36px;
-    line-height: 36px;
-  }
   .mat-toolbar {
-    background: rgba(0, 0, 0, 0.9) !important;
+    background: transparent !important;
     color: white !important;
-    position: sticky;
+    position: fixed;
     top: 0;
+    left: 0;
+    right: 0;
     z-index: 1000;
+    transition: all 0.3s ease;
+    padding: 0 2rem;
+    height: 80px;
   }
+
+  .mat-toolbar.scrolled {
+    background: white !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .scrolled a {
+    color: black !important;
+  }
+
   .logo {
-    height: 40px;
-    margin-right: 16px;
+    height: 70px;
+    margin-left: 60px;
   }
+
   .spacer {
     flex: 1 1 auto;
   }
-  nav button {
-    margin: 0 8px;
+
+  nav {
+    display: flex;
+    gap: 8px;
+    align-items: center;
   }
-  .mat-button {
-    color: white !important;
+
+  nav a {
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 4px;
   }
-  button{
+
+  nav a, .dropdown-trigger {
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    text-decoration: none;
+    color: white;
+    padding: 0 16px;
+    height: 36px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+  }
+
+  .scrolled nav a, .scrolled .dropdown-trigger {
+    color: #333;
+  }
+
+  nav a:hover, .dropdown-trigger:hover {
+    color: #ff3333 !important;
+  }
+
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+
+  .dropdown-trigger {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: inherit;
+  }
+
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: white;
+    min-width: 200px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    padding: 8px 0;
+    z-index: 1001;
+  }
+
+  .dropdown-content a {
+    color: #333;
+    padding: 12px 16px;
+    display: block;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .dropdown-content a:hover {
+    color: #ff3333;
+    background-color: #f5f5f5;
+  }
+
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+
+  .menu-button {
+    display: none;
+    background: none;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+    margin-left: auto;
+  }
+
+
+  .about-menu {
+    margin-top: 8px;
     color: white !important;
   }
 
+
+
+  ::ng-deep .mat-menu-panel {
+    border-radius: 4px !important;
+  }
+
+  ::ng-deep .mat-menu-item {
+    font-size: 14px;
+    font-weight: 500;
+    background-color: #f5f5f5;
+  }
+
+  ::ng-deep .mat-menu-item:hover {
+    color: #ff3333 !important;
+  }
+
+  a{
+    color: white !important;
+  }
+
+
+  @media (max-width: 768px) {
+    .menu-button {
+      display: block;
+      color: black;
+    }
+
+
+    nav {
+      position: fixed;
+     top: 5px;
+      left: 0;
+      right: 0;
+      background: white;
+      flex-direction: column;
+      padding: 1rem;
+      gap: 1rem;
+      transform: translateY(-100%);
+      transition: transform 0.3s ease;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      
+    }
+
+    nav.open {
+      transform: translateY(0);
+    }
+
+    nav a, .dropdown-trigger {
+      color: #333;
+      width: 100%;
+      justify-content: center;
+    }
+
+    .dropdown {
+      width: 100%;
+    }
+
+    .dropdown-content {
+      position: static;
+      box-shadow: none;
+      width: 100%;
+      display: none;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: none;
+    }
+
+    .dropdown.open .dropdown-content {
+      display: block;
+    }
+  }
   .services-section {
     padding: 4rem 2rem;
     background-color: #f5f5f5;
@@ -172,7 +321,7 @@
   }
 
   .active .service-name {
-    color: white;
+    color: white !important;
   }
 
 

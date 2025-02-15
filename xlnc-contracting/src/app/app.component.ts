@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { HostListener } from '@angular/core';
 
 interface Service {
   name: string;
@@ -27,6 +28,10 @@ interface Project {
 })
 export class AppComponent implements OnInit, OnDestroy {
   selectedService: Service | null = null;
+  isScrolled = false;
+  activeSection = '';
+  isMenuOpen = false;
+  isMobile = window.innerWidth <= 768;
   private images = [
     'hero.jpeg',
     'Slider3.jpg',
@@ -38,6 +43,46 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.startSlideshow();
     this.updateBackgroundImage();
+  }
+
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    this.isScrolled = window.scrollY > 50;
+    this.updateActiveSection();
+  }
+
+  @HostListener('window:resize', [])
+  onResize() {
+    this.isMobile = window.innerWidth <= 768;
+    if (!this.isMobile) {
+      this.isMenuOpen = false;
+    }
+  }
+
+  toggleMenu() {
+    this.isMenuOpen = !this.isMenuOpen;
+  }
+
+  closeMenu() {
+    this.isMenuOpen = false;
+  }
+
+  updateActiveSection() {
+    const sections = ['home', 'about', 'health-safety', 'team', 'news', 'projects', 'service', 'contact'];
+    for (const section of sections) {
+      const element = document.getElementById(section);
+      if (element) {
+        const rect = element.getBoundingClientRect();
+        if (rect.top <= 100 && rect.bottom >= 100) {
+          this.activeSection = section;
+          break;
+        }
+      }
+    }
+  }
+
+  isAboutActive(): boolean {
+    return ['about', 'health-safety', 'team'].includes(this.activeSection);
   }
 
   ngOnDestroy() {
@@ -111,32 +156,32 @@ export class AppComponent implements OnInit, OnDestroy {
     },
     {
       name: 'Masonry Works',
-      image: 'TW3.png',
+      image: 'MW3.jpg',
       description: 'Professional masonry services for construction projects.'
     },
     {
       name: 'Painting Works',
-      image: 'assets/services/painting.jpg',
+      image: 'PW1.jpg',
       description: 'Quality painting services for interior and exterior.'
     },
     {
       name: 'Plumbing & Sewerage Works',
-      image: 'assets/services/plumbing.jpg',
+      image: 'PASW3.jpg',
       description: 'Complete plumbing and sewerage solutions.'
     },
     {
       name: 'Structure/Steel Works',
-      image: 'assets/services/steel.jpg',
+      image: 'SS1.jpg',
       description: 'Structural steel work for construction projects.'
     },
     {
       name: 'Tiling Works',
-      image: 'assets/services/tiling.jpg',
+      image: 'TW3.png',
       description: 'Professional tiling services for all surfaces.'
     },
     {
       name: 'Water Proofing Works',
-      image: 'assets/services/waterproofing.jpg',
+      image: 'WP2.jpg',
       description: 'Effective waterproofing solutions for your property.'
     }
   ];
