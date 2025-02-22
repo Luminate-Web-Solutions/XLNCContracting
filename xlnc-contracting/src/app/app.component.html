@@ -210,34 +210,67 @@
   <h2>GET IN TOUCH</h2>
   <div class="contact-container">
     <div class="contact-form">
-      <form (ngSubmit)="onSubmit()" >
+      <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
-          <input type="text" placeholder="Your Name *" required>
+          <input 
+            type="text" 
+            formControlName="name"
+            placeholder="Your Name *" 
+            [class.error]="contactForm.get('name')?.invalid && contactForm.get('name')?.touched">
         </div>
         <div class="form-group">
-          <input type="email" placeholder="Your Email *" required>
+          <input 
+            type="email" 
+            formControlName="email"
+            placeholder="Your Email *"
+            [class.error]="contactForm.get('email')?.invalid && contactForm.get('email')?.touched">
         </div>
         <div class="form-group">
-          <input type="tel" placeholder="Phone *" required>
+          <input 
+            type="tel" 
+            formControlName="phone"
+            placeholder="Phone *"
+            [class.error]="contactForm.get('phone')?.invalid && contactForm.get('phone')?.touched">
         </div>
         <div class="form-group">
-          <textarea placeholder="Your Enquiry *" rows="4" required></textarea>
+          <textarea 
+            formControlName="message"
+            placeholder="Your Enquiry *" 
+            rows="4"
+            [class.error]="contactForm.get('message')?.invalid && contactForm.get('message')?.touched"></textarea>
         </div>
         <div class="captcha-group">
           <p>Please prove you are human by selecting the <span class="highlight">Truck</span>.</p>
           <div class="captcha-options">
-            <button type="button" class="captcha-option">
+            <button 
+              type="button" 
+              class="captcha-option" 
+              [class.selected]="selectedCaptcha === 'heart'"
+              (click)="selectCaptcha('heart')">
               <mat-icon>favorite</mat-icon>
             </button>
-            <button type="button" class="captcha-option">
+            <button 
+              type="button" 
+              class="captcha-option"
+              [class.selected]="selectedCaptcha === 'coffee'"
+              (click)="selectCaptcha('coffee')">
               <mat-icon>local_cafe</mat-icon>
             </button>
-            <button type="button" class="captcha-option">
+            <button 
+              type="button" 
+              class="captcha-option"
+              [class.selected]="selectedCaptcha === 'truck'"
+              (click)="selectCaptcha('truck')">
               <mat-icon>local_shipping</mat-icon>
             </button>
           </div>
         </div>
-        <button type="submit" class="submit-button">Send</button>
+        <button 
+          type="submit" 
+          class="submit-button" 
+          [disabled]="isSubmitting">
+          {{ isSubmitting ? 'Sending...' : 'Send' }}
+        </button>
       </form>
     </div>
     <div class="contact-info">

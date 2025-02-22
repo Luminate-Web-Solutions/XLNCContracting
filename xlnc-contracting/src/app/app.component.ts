@@ -1,5 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HostListener } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ContactService } from './services/contact.service';
 
 interface Service {
   name: string;
@@ -31,6 +34,31 @@ export class AppComponent implements OnInit, OnDestroy {
   isScrolled = false;
   activeSection = '';
   isMenuOpen = false;
+  contactForm: FormGroup;
+  isSubmitting = false;
+  selectedCaptcha: string | null = null;
+
+  constructor(
+    private fb: FormBuilder,
+    private contactService: ContactService,
+    private snackBar: MatSnackBar
+  ) {
+    this.contactForm = this.fb.group({
+      name: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      phone: ['', [Validators.required]],
+      message: ['', [Validators.required]]
+    });
+  }
+
+  selectCaptcha(type: string) {
+    this.selectedCaptcha = type;
+  }
+
+
+
+  
+
   isMobile = window.innerWidth <= 768;
   private images = [
     'hero.jpeg',
@@ -39,6 +67,8 @@ export class AppComponent implements OnInit, OnDestroy {
   ];
   private currentIndex = 0;
   private intervalId: any;
+
+  
 
   ngOnInit() {
     this.startSlideshow();
@@ -222,10 +252,7 @@ export class AppComponent implements OnInit, OnDestroy {
     { url: '5.jpg', alt: 'Project Image 5' }
   ];
 
-  onSubmit() {
-    // Handle form submission
-    console.log('Form submitted');
-  }
+  
 
   statsNumbers: { [key in 'projectsCompleted' | 'clientsWorked' | 'ongoingProjects' | 'since']: { start: number; end: number; current: number } } = {
     projectsCompleted: { start: 0, end: 81, current: 0 },
@@ -279,5 +306,45 @@ export class AppComponent implements OnInit, OnDestroy {
 
     animate();
   }
+  onSubmit() {
+    if (this.contactForm.invalid) {
+      this.snackBar.open('Please fill in all required fields correctly', 'Close', {
+        duration: 3000
+      });
+      return;
+    }
 
+    if (this.selectedCaptcha !== 'truck') {
+      this.snackBar.open('Please select the correct captcha option', 'Close', {
+        duration: 3000
+      });
+      return;
+    }
+
+    this.isSubmitting = true;
+    this.contactService.submitContactForm(this.contactForm.value).subscribe({
+      next: (response) => {
+        if (response.status === 'success') {
+          this.snackBar.open('Message sent successfully!', 'Close', {
+            duration: 3000
+          });
+          this.contactForm.reset();
+          this.selectedCaptcha = null;
+        } else {
+          this.snackBar.open('Failed to send message. Please try again.', 'Close', {
+            duration: 3000
+          });
+        }
+      },
+      error: (error) => {
+        this.snackBar.open('Failed to send message. Please try again.', 'Close', {
+          duration: 3000
+        });
+      },
+      complete: () => {
+        this.isSubmitting = false;
+      }
+    });
+  }
 }
+
