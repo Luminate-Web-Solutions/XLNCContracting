@@ -13,7 +13,7 @@ export interface ContactFormData {
   providedIn: 'root'
 })
 export class ContactService {
-  private apiUrl = 'https://xlnccontracting.com/contact.php';
+  private apiUrl = './contact.php';
 
   constructor(private http: HttpClient) {}
 

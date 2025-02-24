@@ -313,30 +313,33 @@ export class AppComponent implements OnInit, OnDestroy {
       });
       return;
     }
-
+  
     if (this.selectedCaptcha !== 'truck') {
       this.snackBar.open('Please select the correct captcha option', 'Close', {
         duration: 3000
       });
       return;
     }
-
+  
     this.isSubmitting = true;
     this.contactService.submitContactForm(this.contactForm.value).subscribe({
       next: (response) => {
-        if (response.status === 'success') {
+        console.log('Response:', response); // Log the response for debugging
+        if (response.success) {
           this.snackBar.open('Message sent successfully!', 'Close', {
             duration: 3000
           });
           this.contactForm.reset();
           this.selectedCaptcha = null;
         } else {
+          console.warn('Unexpected response status:', response.message); // Log unexpected status
           this.snackBar.open('Failed to send message. Please try again.', 'Close', {
             duration: 3000
           });
         }
       },
       error: (error) => {
+        console.error('Error:', error); // Log the error for debugging
         this.snackBar.open('Failed to send message. Please try again.', 'Close', {
           duration: 3000
         });

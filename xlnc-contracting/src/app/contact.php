@@ -1,21 +1,35 @@
 <?php
+// Enable error reporting for debugging
+error_reporting(0);
+ini_set('display_errors', 0);
+
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: POST');
 header('Access-Control-Allow-Headers: Content-Type');
 header('Content-Type: application/json');
 
+require 'vendor/autoload.php'; // Include PHPMailer
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\SMTP;
+
+require '/full_path/Exception.php';
+require '/full_path/PHPMailer.php';
+require '/full_path/SMTP.php';
+
 // Database configuration
 $config = [
-    'host' => 'localhost',
-    'username' => 'your_username',
-    'password' => 'your_password',
-    'database' => 'xlnc_db'
+    'host' => 'hostname',
+    'username' => 'username',
+    'password' => 'password',
+    'database' => 'database'
 ];
 
 // Response function
-function sendResponse($status, $message) {
+function sendResponse($success, $message) {
     echo json_encode([
-        'status' => $status,
+        'success' => $success,
         'message' => $message
     ]);
     exit;
@@ -23,7 +37,7 @@ function sendResponse($status, $message) {
 
 // Validate request method
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    sendResponse('error', 'Invalid request method');
+    sendResponse(false, 'Invalid request method');
 }
 
 // Get POST data
@@ -33,20 +47,20 @@ $data = json_decode(file_get_contents('php://input'), true);
 $required_fields = ['name', 'email', 'phone', 'message'];
 foreach ($required_fields as $field) {
     if (empty($data[$field])) {
-        sendResponse('error', "Missing required field: {$field}");
+        sendResponse(false, "Missing required field: {$field}");
     }
 }
 
 // Validate email
 if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
-    sendResponse('error', 'Invalid email format');
+    sendResponse(false, 'Invalid email format');
 }
 
 // Sanitize input data
-$name = filter_var($data['name'], FILTER_SANITIZE_STRING);
+$name = filter_var($data['name'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 $email = filter_var($data['email'], FILTER_SANITIZE_EMAIL);
-$phone = filter_var($data['phone'], FILTER_SANITIZE_STRING);
-$message = filter_var($data['message'], FILTER_SANITIZE_STRING);
+$phone = filter_var($data['phone'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+$message = filter_var($data['message'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
 try {
     // Create database connection
@@ -84,29 +98,47 @@ try {
         throw new Exception("Error saving contact: " . $stmt->error);
     }
 
-    // Optional: Send email notification
-    $to = "info@xlnccontracting.com";
-    $subject = "New Contact Form Submission";
-    $email_message = "Name: $name\n";
-    $email_message .= "Email: $email\n";
-    $email_message .= "Phone: $phone\n\n";
-    $email_message .= "Message:\n$message";
-    $headers = "From: $email";
+    // Send email using PHPMailer
+    $mail = new PHPMailer(true);
 
-    mail($to, $subject, $email_message, $headers);
+    // Server settings
+    $mail->isSMTP();
+    $mail->Host = 'domain.com';
+    $mail->SMTPAuth = true;
+    $mail->Username = 'email@domain.com';
+    $mail->Password = 'password';
+    $mail->SMTPSecure = 'ssl';
+    $mail->Port = 465;
+
+    // Recipients
+    $mail->setFrom('email@domain.com', 'From');
+    $mail->addAddress('email@domain.com', 'To');
+    $mail->addReplyTo($data['email'], $data['name']);
+
+    // Content
+    $mail->isHTML(true);
+    $mail->Subject = 'New Contact Form Submission';
+    $mail->Body = "
+        <h2>New Contact Form Submission</h2>
+        <p><strong>Name:</strong> " . htmlspecialchars($data['name']) . "</p>
+        <p><strong>Email:</strong> " . htmlspecialchars($data['email']) . "</p>
+        <p><strong>Phone:</strong> " . htmlspecialchars($data['phone']) . "</p>
+        <p><strong>Message:</strong><br>" . nl2br(htmlspecialchars($data['message'])) . "</p>
+    ";
+    $mail->send();
 
     // Close connections
     $stmt->close();
     $conn->close();
 
     // Send success response
-    sendResponse('success', 'Message sent successfully');
+    sendResponse(true, 'Message sent successfully and stored in database');
 
 } catch (Exception $e) {
     // Log error (in a production environment)
     error_log($e->getMessage());
-    
+
     // Send error response
-    sendResponse('error', 'An error occurred while processing your request');
+    sendResponse(false, 'An error occurred while processing your request: ' . $e->getMessage());
 }
 ?>

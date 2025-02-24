@@ -845,6 +845,12 @@
   transition: all 0.3s ease;
 }
 
+.captcha-option.selected {
+  background-color: #007bff;
+  border-color: #007bff;
+  color: white;
+}
+
 .captcha-option:hover {
   background: rgba(255, 255, 255, 0.1);
 }
