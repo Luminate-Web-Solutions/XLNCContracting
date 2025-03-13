@@ -918,3 +918,32 @@
   }
 }
 
+.footer-credit {
+  text-align: center;
+  font-size: 14px;
+  color: #fff;
+  margin-top: 20px;
+}
+.footer-credit a {
+
+  text-decoration: none;
+}
+.footer-credit a:hover {
+  text-decoration: underline;
+}
+
+.designed-by {
+  margin-top: 30px;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.designed-by a {
+  color: #ffd700; /* Gold color for contrast */
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.designed-by a:hover {
+  text-decoration: underline;
+}
